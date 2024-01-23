@@ -1,0 +1,18 @@
+import matplotlib.pyplot as plt
+from ggplot import *
+
+# 准备数据
+data = {'Category': ['A', 'B', 'C', 'D'],
+        'Value': [10, 15, 7, 20]}
+
+# 使用matplotlib创建柱状图
+plt.bar(data['Category'], data['Value'])
+plt.title('Bar Chart')
+plt.xlabel('Category')
+plt.ylabel('Value')
+plt.show()
+
+# 使用ggplot创建散点图
+scatter_plot = ggplot(aes(x='Category', y='Value'), data=pd.DataFrame(data))
+scatter_plot + geom_point() + ggtitle('Scatter Plot') + xlab('Category') + ylab('Value')
+plt.show()

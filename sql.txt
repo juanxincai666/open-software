@@ -1,0 +1,38 @@
+# models.py
+from sqlalchemy import create_engine, Column, Integer, String, Sequence
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+
+class Student(Base):
+    __tablename__ = 'students'
+
+    id = Column(Integer, Sequence('student_id_seq'), primary_key=True)
+    name = Column(String(50))
+    age = Column(Integer)
+
+# 创建数据库连接
+engine = create_engine('mysql+mysqlconnector://username:password@localhost:3306/mydatabase')
+
+# 创建表
+Base.metadata.create_all(engine)
+
+# 创建会话
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# 添加数据
+student1 = Student(name='John Doe', age=20)
+student2 = Student(name='Jane Smith', age=22)
+
+session.add_all([student1, student2])
+session.commit()
+
+# 查询数据
+students = session.query(Student).all()
+for student in students:
+    print(f"ID: {student.id}, Name: {student.name}, Age: {student.age}")
+
+# 关闭会话
+session.close()

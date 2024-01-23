@@ -1,0 +1,27 @@
+# 使用pymongo将数据存储到MongoDB
+
+from pymongo import MongoClient
+
+# 连接到MongoDB数据库
+client = MongoClient('mongodb://localhost:27017/')
+
+# 选择或创建一个数据库
+db = client['mydatabase']
+
+# 选择或创建一个集合
+students_collection = db['students']
+
+# 插入数据
+student1 = {"name": "John Doe", "age": 20}
+student2 = {"name": "Jane Smith", "age": 22}
+
+result = students_collection.insert_many([student1, student2])
+print(f"Inserted {len(result.inserted_ids)} documents")
+
+# 查询数据
+students = students_collection.find()
+for student in students:
+    print(f"Name: {student['name']}, Age: {student['age']}")
+
+# 关闭连接
+client.close()

@@ -1,0 +1,36 @@
+import requests
+from bs4 import BeautifulSoup
+
+# 发送请求获取网页内容
+url = 'https://example.com/open-source-software'
+response = requests.get(url)
+
+# 检查请求是否成功
+if response.status_code == 200:
+    # 使用Beautiful Soup解析HTML内容
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # 找到包含软件信息的HTML元素
+    software_elements = soup.find_all('div', class_='software-info')
+
+    # 遍历每个软件元素，提取信息
+    for software_element in software_elements:
+        # 提取软件名称
+        software_name = software_element.find('h2').text
+
+        # 提取软件版本
+        software_version = software_element.find('span', class_='version').text
+
+        # 提取软件描述
+        software_description = software_element.find('p', class_='description').text
+
+        # 过滤条件示例：只显示版本号大于等于2.0的软件
+        if float(software_version) >= 2.0:
+            # 打印软件信息
+            print(f"软件名称: {software_name}")
+            print(f"版本号: {software_version}")
+            print(f"描述: {software_description}")
+            print("===================")
+
+else:
+    print(f"请求失败，状态码: {response.status_code}")
